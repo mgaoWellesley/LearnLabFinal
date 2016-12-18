@@ -1,0 +1,149 @@
+<!-- This code was based off of a template from Bootstrap at https://startbootstrap.com/template-overviews/sb-admin/ -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>LearnLab</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+     <link href="offcanvas.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Electrophoresis Lab</a>
+        </div>
+        
+      </div>
+    </nav>
+
+    <!-- sidebar with the procedure -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a>1.) Add Dye to DNA Samples</a></li>
+            <li><a>2.) Fill Gel Box with Buffer<span class="sr-only">(current)</span></a></li>
+            <li><a>3.) Load Samples</a></li>
+            <li><a>4.) Attach Electrodes</a></li>
+            <li><a>5.) Run Gel Electrophoresis</a></li>
+            <li class="active"><a>6.) Analyze Samples</a></li>
+            <li><a>7.) Clean Up</a></li>
+          </ul>
+          
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Step 6: Analyze Samples</h1>
+
+          <div class="row placeholders">
+            <div class="col-xs-6 col-md-4 placeholder">
+               <img src="Images/gelanalysis.jpeg" width="300" height="300" alt="filling gel box" class="mainImage">
+                <h4 class="imageLabel">Analyzing samples</h4>
+            </div>
+           
+           <!-- current step's sub-steps -->
+            <div class="col-md-4 col-sm-3 sidebar-offcanvas" id="sidebar">
+          <div class="list-group">
+            <a class="list-group-item active" id="test1">Turn off power</a>
+             <a class="list-group-item" id="test2">Remove gel from gel box</a>
+             <a class="list-group-item" id="test3">Drain off excess buffer</a>
+             <a class="list-group-item" id="test4">Expose gel to UV light</a>
+          </div>
+        </div><!--/.sidebar-offcanvas-->
+            <!-- <div class="col-xs-6 col-md-4 placeholder">
+               <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="300" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+                <h4>Label</h4>
+            </div> -->
+          </div>
+
+          <!-- current step's details -->
+          <h3 class="sub-header">Details</h3>
+          <div class="details">
+            <p>
+          <b> Be certain that you have switched off the power before removing the gel (with gloves).</b> Pour off the excess buffer into an appropriate waste disposal container. Although this simulation is mostly virtual and entirely safe, this will be an important step for you to remember in a real-world lab.<br>
+          Put the gel on a clean surface, and expose the gel to UV light. This will be provided by your lab instructor. Be sure to take a picture of the gel for later use.
+            </p>
+          </div>
+
+        <a href="step5.html" class="btn btn-lg btn-default backButton">Back</a>
+        <a href="step7.html" class="btn btn-lg btn-default nextButton hidden" id="next">Next</a>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="jquery.min.js"><\/script>')</script>
+    <script src="bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="ie10-viewport-bug-workaround.js"></script>
+    <script>
+    $(document).ready(function(){
+    $("#test1").click(function(){
+        $("#test1").addClass("active");
+        $("#test2").removeClass("active");
+        $("#test3").removeClass("active");
+        $("#test4").removeClass("active");
+        });
+    $("#test2").click(function(){
+        $("#test2").addClass("active");
+        $("#test1").removeClass("active");
+        $("#test3").removeClass("active");
+        $("#test4").removeClass("active");
+        });
+    $("#test3").click(function(){
+        $("#test3").addClass("active");
+        $("#test1").removeClass("active");
+        $("#test2").removeClass("active");
+        $("#test4").removeClass("active");
+        });
+     $("#test4").click(function(){
+        $("#test4").addClass("active");
+        $("#test1").removeClass("active");
+        $("#test2").removeClass("active");
+        $("#test3").removeClass("active");
+        $("#next").removeClass("hidden");
+        });
+    });
+</script>
+  </body>
+</html>

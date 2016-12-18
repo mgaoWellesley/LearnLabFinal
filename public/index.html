@@ -1,0 +1,191 @@
+<!-- This code was based off of a template from Bootstrap at https://startbootstrap.com/template-overviews/sb-admin/ -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>LearnLab</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+     <link href="offcanvas.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!-- script below is modified from https://itp.nyu.edu/physcomp/labs/labs-serial-communication/lab-serial-communication-with-node-js/ to communicate with the serial port to grab sensor information -->
+    <script src="ie-emulation-modes-warning.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.8/p5.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.8/addons/p5.dom.js"></script>
+    <script type="text/javascript">
+      var text;   // variable for the text div you'll create
+      var socket = new WebSocket("ws://localhost:8081");
+      function setup() {
+        // The socket connection needs two event listeners:
+        socket.onopen = openSocket;
+        socket.onmessage = showData;
+        
+      }
+      function openSocket() {
+        text.html("Socket open");
+        socket.send("Hello server");
+      }
+
+      var current;
+      var past;
+      var checker = 0;
+      /*
+      showData(), below, will get called whenever there is new Data
+      from the server. 
+      */
+
+      function showData(result) {
+        //if the pipette has not been depressed long enough, do not show next button
+        if(checker < 10) {
+          $("#next").addClass("hidden");
+         } else {
+          $("#next").removeClass("hidden");
+         }
+        past = current;
+        current = result.data;
+
+        //if the pressure is over 200 grams and the sensor has been depressed for less than 5 units
+        //move onto the next setp 
+        if(current > 200 && checker < 5) {
+         $("#test2").addClass("active");
+         $("#test1").removeClass("active");
+         $("#test3").removeClass("active");
+         checker++;
+         //else if this is the second time the sensor has been depressed, move to last step
+       } else if(current > 200 && checker <= 15){
+         $("#test3").addClass("active");
+         $("#test1").removeClass("active");
+         $("#test2").removeClass("active");
+         checker++;
+       }
+       
+      }
+  </script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- navigation bar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Electrophoresis Lab</a>
+        </div>
+        
+      </div>
+    </nav>
+
+    <!-- body content, starts with sidebar with instruction list-->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">1.) Add Dye to DNA Samples<span class="sr-only">(current)</span></a></li>
+            <li><a>2.) Fill Gel Box with Buffer</a></li>
+            <li><a>3.) Load Samples</a></li>
+            <li><a>4.) Attach Electrodes</a></li>
+            <li><a>5.) Run Gel Electrophoresis</a></li>
+            <li><a>6.) Analyze Samples</a></li>
+            <li><a>7.) Clean Up</a></li>
+          </ul>
+          
+        </div>
+        <!-- Images with captions -->
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Step 1: Add Dye to DNA Samples</h1>
+
+          <div class="row placeholders">
+            <div class="col-xs-6 col-md-4 placeholder">
+               <img src="Images/loadingdye.jpeg" width="300" height="300" alt="loading dye with pipette" class="mainImage">
+                <h4 class="imageLabel">Loading dye using pipette</h4>
+            </div>
+           
+            <div class="col-md-4 col-sm-3 sidebar-offcanvas" id="sidebar">
+          <div class="list-group">
+            <a class="list-group-item active" id="test1">Draw 50 microliters from beaker A</a>
+            <a class="list-group-item" id="test2">Dispense solution into test tube</a>
+            <a  class="list-group-item" id="test3">Mix solution in test tube</a>
+          </div>
+        </div><!--/.sidebar-offcanvas-->
+            <!-- <div class="col-xs-6 col-md-4 placeholder">
+               <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="300" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+                <h4>Label</h4>
+            </div> -->
+          </div>
+
+          <!-- Detail paragraph -->
+          <h3 class="sub-header">Details</h3>
+          <div class="details">
+            <p>
+           Beaker A contains loading dye, which will be essential for running the gel electrophoresis experiment. This will allow the DNA solution become denser and settle into the wells, instead of just floating away when we pour in the buffer. <br>
+           Look at the pipette carefully to make sure you are drawing exactly 50 microliters (mL) of solution. Push down slowly on the depresser when you unload the solution into the test tube. Mix by swirling the test tube gently - use a back-and-forth motion instead of an up-and-down motion. After a minute, the solution will be ready for loading into the gel electrophoresis box. 
+            </p>
+          </div>
+
+        <a href="index.html" class="btn btn-lg btn-default backButton">Back</a>
+        <a href="step2.html" class="btn btn-lg btn-default nextButton" id="next">Next</a>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="jquery.min.js"><\/script>')</script>
+    <script src="bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="ie10-viewport-bug-workaround.js"></script>
+   <script>
+    $(document).ready(function(){
+    $("#test1").click(function(){
+        $("#test1").addClass("active");
+        $("#test2").removeClass("active");
+        $("#test3").removeClass("active");
+        });
+    $("#test2").click(function(){
+        $("#test2").addClass("active");
+        $("#test1").removeClass("active");
+        $("#test3").removeClass("active");
+        });
+    $("#test3").click(function(){
+        $("#test3").addClass("active");
+        $("#test1").removeClass("active");
+        $("#test2").removeClass("active");
+        });
+    });
+</script>
+  </body>
+</html>
